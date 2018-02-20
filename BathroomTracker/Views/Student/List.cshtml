@@ -1,0 +1,12 @@
+﻿@model StudentsListViewModel
+
+@foreach (var s in Model.Students)
+{
+    @Html.Partial("StudentSummary", s)
+
+}
+
+<div page-model="Model.PagingInfo" page-action="List" page-classes-enabled="true"
+     page-class="btn" page-class-normal="btn-secondary"
+     page-class-selected="btn-primary" class="btn-group pull-right m-1">
+</div>
