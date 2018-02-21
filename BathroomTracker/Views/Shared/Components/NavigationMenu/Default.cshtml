@@ -1,0 +1,21 @@
+﻿@model IEnumerable<string>
+
+<a class="btn btn-block btn-secondary"
+   asp-action="List"
+   asp-controller="Student"
+   asp-route-gradeLevel="">
+    Home
+</a>
+
+@foreach (string gradeLevel in Model)
+{
+    <a class="btn btn-block
+       @(gradeLevel == ViewBag.SelectedGradeLevel ? "btn-primary": "btn-secondary")"
+       asp-action="List"
+       asp-controller="Student"
+       asp-route-gradeLevel="@gradeLevel"
+       asp-route-studentPage="1">
+        @gradeLevel
+    </a>
+
+}

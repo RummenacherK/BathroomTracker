@@ -19,10 +19,11 @@ namespace BathroomTracker.Controllers
             repository = repo;
         }
 
-        public ViewResult List(int studentPage = 1)
+        public ViewResult List(string gradeLevel, int studentPage = 1)
             => View(new StudentsListViewModel
             {
                 Students = repository.Students
+                   .Where(s => gradeLevel == null || s.GradeLevel == gradeLevel)
                    .OrderBy(s => s.StudentID)
                    .Skip((studentPage - 1) * PageSize)
                    .Take(PageSize),
@@ -30,8 +31,12 @@ namespace BathroomTracker.Controllers
                 {
                     CurrentPage = studentPage,
                     ItemsPerPage = PageSize,
-                    TotalItems = repository.Students.Count()
-                }
+                    TotalItems = gradeLevel == null ?
+                        repository.Students.Count() :
+                        repository.Students.Where(e =>
+                            e.GradeLevel == gradeLevel).Count()
+                },
+                CurrentGradeLevel = gradeLevel
             });
     }  
 }

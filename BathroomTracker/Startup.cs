@@ -26,6 +26,8 @@ namespace BathroomTracker
                 Configuration["Data:BathroomTrackerStudents:ConnectionString"]));
             services.AddTransient<IStudentRepository, EFStudentRepository>();
             services.AddMvc();
+            services.AddMemoryCache();
+            services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -34,16 +36,36 @@ namespace BathroomTracker
             app.UseDeveloperExceptionPage();
             app.UseStatusCodePages();
             app.UseStaticFiles();
+            app.UseSession();
             app.UseMvc(routes =>
             {
-            routes.MapRoute(
-                name: "pagination",
-                template: "Students/Page{studentPage}",
-                defaults: new { Controller = "Student", action = "List" });
+                routes.MapRoute(
+                    name: null,
+                    template: "{gradeLevel}/Page{studentPage:int}",
+                    defaults: new { controller = "Student", action = "List" }
+                );
 
-            routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Student}/{action=List}/{id?}");
+                routes.MapRoute(
+                    name: null,
+                    template: "page{studentPage:int}",
+                    defaults: new { controller = "Student",
+                        action = "List", studentPage = 1 }
+                );
+
+                routes.MapRoute(
+                    name: null,
+                    template: "{gradeLevel}",
+                    defaults: new { controller = "Student",
+                        action = "List", studentPage = 1 }
+                );
+
+                routes.MapRoute(
+                    name: null,
+                    template: "",
+                    defaults: new { controller = "Student", action = "List",
+                    studentPage = 1 }
+                );
+                routes.MapRoute(name: null, template: "{controller}/{action}/{id?}");
             });
             SeedData.EnsurePopulated(app);
         }

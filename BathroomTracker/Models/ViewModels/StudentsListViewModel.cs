@@ -10,5 +10,6 @@ namespace BathroomTracker.Models.ViewModels
     {
         public IEnumerable<Student> Students { get; set; }
         public PagingInfo PagingInfo { get; set; }
+        public string CurrentGradeLevel { get; set; }
     }
 }

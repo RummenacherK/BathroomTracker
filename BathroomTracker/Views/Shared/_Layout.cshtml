@@ -9,12 +9,12 @@
     <title>BathroomTripTracker</title>
 </head>
 <body>
-    <div class="navbar navbar-inverse bg-inverse" role="navigation">
+    <div class="navbar navbar-dark bg-dark" role="navigation">
         <a class="navbar-brand" href="#">Bathroom Trip Tracker</a>
     </div>
     <div class="row m-1 p-1">
         <div id="categories" class="col-3">
-            Grade Levels
+            @await Component.InvokeAsync("NavigationMenu")
         </div>
         <div class="col-9">
             @RenderBody()
