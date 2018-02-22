@@ -25,6 +25,8 @@ namespace BathroomTracker
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
                 Configuration["Data:BathroomTrackerStudents:ConnectionString"]));
             services.AddTransient<IStudentRepository, EFStudentRepository>();
+            services.AddScoped<Tracker>(sp => SessionTracker.GetTracker(sp));
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddMvc();
             services.AddMemoryCache();
             services.AddSession();
